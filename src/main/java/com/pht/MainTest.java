@@ -37,8 +37,8 @@ public class MainTest {
     @Test
     public  void initCupTest(){
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext( InitMyConfig2.class);
-        Computer bean = applicationContext.getBean(Computer.class);
-        System.out.println(bean);
+//        Computer bean = applicationContext.getBean(Computer.class);
+//        System.out.println(bean);
     }
     public static void   scopeTest(){
         ApplicationContext applicationContext =MainTest.applicationContext;
