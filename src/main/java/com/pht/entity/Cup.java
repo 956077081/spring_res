@@ -1,26 +1,15 @@
 package com.pht.entity;
 
-import com.pht.processor.CupProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-public class Cup  implements BeanPostProcessor {
+public class Cup   {
     private String size ;
     private String type;
-    @Override
-    public   Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("BeanPostProcessor------"+bean+beanName);
-        return bean;
-    }
 
-    @Override
-    public   Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("postProcessAfterInitialization"+bean+beanName);
-        return bean;
-    }
     public Cup() {
         System.out.println("contruct");
     }

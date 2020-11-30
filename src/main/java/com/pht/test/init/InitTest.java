@@ -4,11 +4,15 @@ package com.pht.test.init;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-public class InitTest implements InitializingBean, DisposableBean, BeanPostProcessor {
+
+/**
+ * BeanPostProcessor初始化前后执行  构造》BeanPostProcessor 优先级》@postCOntroller 》InitializingBean 》bean的init方法
+ * bean销毁时同理
+ */
+public class InitTest implements InitializingBean, DisposableBean {
 
     public InitTest() {
         System.out.println("InitTest");
@@ -32,18 +36,5 @@ public class InitTest implements InitializingBean, DisposableBean, BeanPostProce
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("start_InitializingBean");
-    }
-
-
-    @Override
-    public Object postProcessBeforeInitialization(Object o, String s) throws BeansException {
-        System.out.println("statrt_BeanPostProcessor");
-        return o;
-    }
-
-    @Override
-    public Object postProcessAfterInitialization(Object o, String s) throws BeansException {
-        System.out.println("end_BeanPostProcessor");
-        return o;
     }
 }

@@ -1,17 +1,17 @@
 package com.pht;
 
-import com.pht.config.InitMyConfig;
-import com.pht.config.InitMyConfig2;
-import com.pht.config.ScopeTest;
-import com.pht.config.SpringConfigTest;
+import com.pht.config.*;
 import com.pht.entity.Computer;
 import com.pht.entity.Cup;
 import com.pht.entity.Person;
 import com.pht.entity.Water;
+import com.pht.entity.value.School;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MutablePropertySources;
 
 public class MainTest {
 //  public static ApplicationContext applicationContext = new AnnotationConfigApplicationContext( ScopeTest.class);
@@ -27,6 +27,15 @@ public class MainTest {
 //        xmlConfigBean();
 //        annoConfigBean();
 
+    }
+    @Test
+    public void initValueTest(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ValueConifg.class);
+        Object bean = applicationContext.getBean(School.class);
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        String property = environment.getProperty("school.stuNum");//environment存放的是容器中需要的配置文件信息
+        System.out.println(property);
+        System.out.println(bean);
     }
     @Test
     public void initWaterTest(){
