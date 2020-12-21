@@ -1,21 +1,24 @@
 package com.pht;
 
-import com.pht.config.InitMyConfig;
-import com.pht.config.InitMyConfig2;
-import com.pht.config.ScopeTest;
-import com.pht.config.SpringConfigTest;
-import com.pht.entity.*;
+import com.pht.config.*;
+import com.pht.entity.Computer;
+import com.pht.entity.Cup;
+import com.pht.entity.Person;
+import com.pht.entity.Water;
+import com.pht.entity.value.School;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MutablePropertySources;
 
 public class MainTest {
 //  public static ApplicationContext applicationContext = new AnnotationConfigApplicationContext( ScopeTest.class);
         public static ApplicationContext applicationContext = null;
-//    public static ApplicationContext applicationContext3 = null;
+    public static ApplicationContext applicationContext3 = null;
 
-    public static AnnotationConfigApplicationContext applicationContext3 = new AnnotationConfigApplicationContext(InitMyConfig.class);
+//    public static AnnotationConfigApplicationContext applicationContext3 = new AnnotationConfigApplicationContext(InitMyConfig.class);
     public static void main(String[] args) {
         scopeTest();
 
@@ -26,21 +29,25 @@ public class MainTest {
 
     }
     @Test
+    public void initValueTest(){
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ValueConifg.class);
+        Object bean = applicationContext.getBean(School.class);
+        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+        String property = environment.getProperty("school.stuNum");//environment存放的是容器中需要的配置文件信息
+        System.out.println(property);
+        System.out.println(bean);
+    }
+    @Test
     public void initWaterTest(){
+
         Water bean = applicationContext3.getBean(Water.class);
         System.out.println(bean);
     }
     @Test
-    public  void tetsApplicationContext(){
-        ApplicationContext applicationContext = springApplication.getApplicationContext();
-        System.out.println(applicationContext);
-        }
-
-    @Test
     public  void initCupTest(){
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext( InitMyConfig2.class);
-        Cup bean = applicationContext.getBean(Cup.class);
-        System.out.println(bean);
+//        Computer bean = applicationContext.getBean(Computer.class);
+//        System.out.println(bean);
     }
     public static void   scopeTest(){
         ApplicationContext applicationContext =MainTest.applicationContext;
