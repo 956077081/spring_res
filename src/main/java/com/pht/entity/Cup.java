@@ -10,15 +10,34 @@ import javax.annotation.PreDestroy;
 public class Cup  implements BeanPostProcessor {
     private String size ;
     private String type;
+
+
+    public void initMethod(){
+        System.out.println("init_Method");
+    }
+    /**
+     * 执行init方法之调用
+     * @param bean
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
     @Override
     public   Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("BeanPostProcessor------"+bean+beanName);
+        System.out.println("postProcessBeforeInitialization------");
         return bean;
     }
 
+    /**
+     * 执行初始化方法执行进行调用
+     * @param bean
+     * @param beanName
+     * @return
+     * @throws BeansException
+     */
     @Override
     public   Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        System.out.println("postProcessAfterInitialization"+bean+beanName);
+        System.out.println("postProcessAfterInitialization------------");
         return bean;
     }
     public Cup() {
@@ -27,11 +46,11 @@ public class Cup  implements BeanPostProcessor {
 
     @PostConstruct
     public void init(){
-        System.out.println("postcontrlle——init"+this);
+        System.out.println("postcontrlle——init");
     }
     @PreDestroy
     public void  destry(){
-        System.out.println("postController -destroy"+this);
+        System.out.println("postController -destroy");
     }
     public String getSize() {
         return size;

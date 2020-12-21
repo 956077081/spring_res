@@ -3,6 +3,7 @@ package com.pht.config;
 import com.pht.entity.Computer;
 import com.pht.entity.Cup;
 import com.pht.entity.Water;
+import com.pht.entity.springApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,6 +31,10 @@ public class InitMyConfig {
     @Bean(name = "computer")
     public Computer getComputer(){
         return  new Computer();
+    }
+    @Bean
+    public springApplication springApplication(){
+        return new springApplication();
     }
 
 }
