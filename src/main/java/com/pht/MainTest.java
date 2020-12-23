@@ -31,6 +31,10 @@ public class MainTest {
     @Test
     public void initValueTest(){
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(ValueConifg.class);
+        String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+        for (int i = 0; i <beanDefinitionNames.length ; i++) {
+            System.out.println(beanDefinitionNames[i]);
+        }
         Object bean = applicationContext.getBean(School.class);
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         String property = environment.getProperty("school.stuNum");//environment存放的是容器中需要的配置文件信息
@@ -69,6 +73,7 @@ public class MainTest {
             System.out.println(beanDefinitionName);
         }
     }
+
 
     /**
      * xml方式scan获取 扫描注解  获取bean
