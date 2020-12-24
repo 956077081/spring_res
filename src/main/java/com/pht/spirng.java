@@ -1,9 +1,6 @@
 package com.pht;
 
-import com.pht.config.AopConfig;
-import com.pht.config.AutoWiredConfig;
-import com.pht.config.DataSourceConfig;
-import com.pht.config.InnerAwareConfig;
+import com.pht.config.*;
 import com.pht.dao.UserDao;
 import com.pht.entity.User;
 import com.pht.service.UserService;
@@ -53,7 +50,25 @@ public class spirng {
         AnnotationConfigApplicationContext applicationContext =new AnnotationConfigApplicationContext(AopConfig.class);
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         UserDao bean = applicationContext.getBean(UserDao.class);
+        /**
+         * cglib代理对象 包含了 目标类  以及 增强器（advisor）
+         * 调用方法首先会调用 CglibAopProxy 中的intercept的拦截器 拦截方法
+         * 在根据 this.advised.getInterceptorsAndDynamicInterceptionAdvice(method, targetClass); 获取增强链
+         *  其中会将类的增强器 转换MethodInterceptor然后使用 CglibMethodInvocation.proceed()方法调用拦截器
+         *    proceed()方法
+         *    proceed()： 会一次调用拦截器的invoke方法 但是拦截器内容有会调用传入的拦截器的invoke方法
+         *    顺序：ExposeInvocationInceptor.invoke()-> AspectAfterThrowingAdvice.invoke()->AfterReturningAdviceInterceptor.invoke()->AspectAfterAdvie.invoke
+         *    ->MethodBeforeAdviceInceptor.invoke()  直到 所有的拦截器遍历完 再进行返回 执行 methodProxy.invoke(target, argsToUse) 执行的方法
+         *    倒序的执行 before -> after->afterreturning|thorwing(如果有异常执行异常通知  没有异常执行返回通知)
+         */
         bean.setLabel("1111");
         bean.getLabel();
+    }
+    @Test
+    public void TxTest(){
+        AnnotationConfigApplicationContext applicationContext =new AnnotationConfigApplicationContext(TxConfig.class);
+        UserService bean = applicationContext.getBean(UserService.class);
+        bean.insertUser();
+        applicationContext.close();
     }
 }
