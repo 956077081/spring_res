@@ -1,5 +1,8 @@
 package com.pht.entity;
 
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.event.EventListener;
+
 public class User {
     private String userName;
     private String passWord;
@@ -26,5 +29,9 @@ public class User {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+    @EventListener({ApplicationEvent.class})
+    public void testAllListEvent(ApplicationEvent event){
+        System.out.println("“User监听的事件");
     }
 }

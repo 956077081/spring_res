@@ -1,0 +1,49 @@
+//spring 初始化过程
+ 1 register 注册当前配置
+ 2 refresh 方法：
+    prepareRefresh：预刷新
+           initPropertySources ：初始化参数(空实现)
+           getEnvironment().validateRequiredProperties()校验参数合法性
+           this.earlyApplicationEvents = new LinkedHashSet<ApplicationEvent>(); 存放早期的事件
+    obtainFreshBeanFactory():获取beanFactory
+            refreshBeanFactory：createBeanFactory()创建一个DefaultListableBeanFactory 的beanFactory
+    prepareBeanFactory：beanFactory的预准备工作：加载部分postprocessor 以及注入aware组件
+                        以及加载 参数1 getEnvironment spring环境配置
+                        2 getEnvironment.getSystemProperties 加载的java环境
+                        3 系统环境配置getSystemEnvironment 电脑环境变量
+
+    postProcessBeanFactory： BeanFactory创建了以后的后置处理工作   （空实现）
+    ################BeanFactory的创建#########################
+ 3 invokeBeanFactoryPostProcessors  执行BeanFactory的后置处理器
+            1获取 BeanDefinitionRegistryPostProcessor （？ extends BeanFactPostprocessor）接口的 组件
+            2 根据 BeanDefinitionRegistryPostProcessor 如果继承 PriorityOrdered 接口根据优先级排序 保存
+                根据 BeanDefinitionRegistryPostProcessor 如果继承 Order 接口根据优先级排序 保存
+            3 执行BeanDefinitionRegistryPostProcessor 的 postProcessBeanDefinitionRegistry执行
+            4 再执行没有 PriorityOrdered 的BeanDefinitionRegistryPostProcessor 的 postProcessBeanDefinitionRegistry
+            5   ## 执行BeanDefinitionRegistryPostProcessor的 postProcessBeanFactory
+                ## 再执行 BeanFactoryPostProCeesor的postProcessBeanFactory
+            优先级        BeanDefinitionRegistryPostProcessor>BeanFactoryPostProCeesor
+                         postProcessBeanDefinitionRegistry > postProcessBeanFactory
+                BeanDefinitionRegistryPostProcessor通过 PriorityOrdered 以及Order接口排序  PriorityOrdered优先级大于 Order
+    #########################registerBeanPostProcessors 注册beanPostProcessor ##################################
+ 4 registerBeanPostProcessors
+            1  同 BeanDefinitionRegistryPostProcessor BeanPostProcessor 也使用 ProprityOrder以及Order接口进行排序 选择执行优先权
+                再加载 没有 ProprityOrder以及Order接口 的 BeanPostProcessor
+            2  最后 增加 ApplicationListenerDetector 这个   BeanPostProcessor 的 postProcessAfterInitialization 方法会在 初始化之后
+                判断对 组件是否继承 了 ApplicationListener  监听接口 如果有则添加监听器
+   #####################  initMessageSource 国际化##################################
+ 5 initMessageSource
+            1 首先判断是否 有实现 MessageResource组件  没有则注册 一个 DelegatingMessageSource 默认组件
+              MessageResource.getMessage来获取国际化配置
+
+ #####################initApplicationEventMulticaster 初始化派发器####################
+ 6 initApplicationEventMulticaster 初始化派发器
+            创建默认的派发器SimpleApplicationEventMulticaster
+ ######################onRefresh（空实现）预留的子类刷新方法####################
+ 7 onRefresh  空实现类 预留提供刷新功能
+
+ ###########registerListeners 注册监听器  ####################
+ 8      registerListeners
+            1 获取 所有实现了ApplicationListener 接口的组件 以及 早期的 事件  earlyApplicationEvents 添加到派发器中（ ApplicationContext.pushEvent()即将事件添加到earlyApplicationEvents的 集合中去  ）
+
+
