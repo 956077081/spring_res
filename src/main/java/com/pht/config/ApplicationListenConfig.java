@@ -29,7 +29,7 @@ import org.springframework.context.annotation.PropertySource;
  * @EventListener 注解也可以创建监听器方法 详细User 类
  *  EventListener 注解是在  preInstantiateSingletons()中 注册完所有bean以后会再次
  *  再次判断 	if (singletonInstance instanceof SmartInitializingSingleton) {
- *  执行 （EventListenerMethodProcessor）SmartInitializingSingleton .afterSingletonsInstantiated（） -》processBean()->、
+ *  执行 （EventListenerMethodProcessor）SmartInitializingSingleton .afterSingletonsInstantiated（） -》processBean()->
  *  注入到this.applicationContext.addApplicationListener(applicationListener);    派发器添加了getApplicationListeners() spring中监听器 以及  实现了ApplicationListener接口的监听
  *
  *

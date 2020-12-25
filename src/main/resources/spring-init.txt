@@ -43,7 +43,27 @@
  7 onRefresh  空实现类 预留提供刷新功能
 
  ###########registerListeners 注册监听器  ####################
- 8      registerListeners
+ 8 registerListeners
             1 获取 所有实现了ApplicationListener 接口的组件 以及 早期的 事件  earlyApplicationEvents 添加到派发器中（ ApplicationContext.pushEvent()即将事件添加到earlyApplicationEvents的 集合中去  ）
-
-
+ ########### 完成其他单实例bean的注册  ####################
+ 9 finishBeanFactoryInitialization
+        preInstantiateSingletons：
+            1 !bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()非抽象   非懒加载 单实例的bean才会选择被注册
+            2  首先判断是否FactoryBean 是  则会创建一个 SmartFactoryBean 类型的工厂bean
+            3  非FactoryBean 则会调用getBean-》doGetBean()->
+                 1 mbd.getDependsOn() 创建bean首先判断是否有依赖的bean   首先创建依赖的bean getBean()
+                 2 执行 createBean->resolveBeforeInstantiation()    首先执行InstantiationAwareBeanPostProcessor 后置处理器  执行 postProcessBeforeInstantiation后 再执行applyBeanPostProcessorsAfterInitialization
+                 如果有对象返回则生成代理对象 ，否则 调用 doCreateBean()
+                 3 doCreateBean: createBeanInstance 创建bean实例    ->applyMergedBeanDefinitionPostProcessors()方法为在创建完bean以后执行的 MergedBeanDefinitionPostProcessor 的postProcessMergedBeanDefinition
+                    -》populateBean()初始化bean参数  赋值参数会用到 InstantiationAwareBeanPostProcessor后置处理器   先调用了 postProcessAfterInstantiation再调用了 postProcessPropertyValues方法进行赋值
+                   initializeBean的调用bean初始化方法  invokeAwareMethods方法给为bean中 如果继承了 BeanFactoryAware BeanClassLoaderAware BeanNameAware 接口 方法赋值
+                        applyBeanPostProcessorsBeforeInitialization  执行 invokeAwareInterfaces  给bean中如果 又实现aware接口 方法赋值  |  执行beanpostprocessor 后置处理器的 bean初始化的前置方法
+                        invokeInitMethods 执行 初始化方法
+                        applyBeanPostProcessorsAfterInitialization  执行beanpostprocee后置处理器的 bean初始化后的后置方法
+            4 执行getbean方法之后会再次遍历一次 bean
+                 对于 （EventListenerMethodProcessor）SmartInitializingSingleton 组件 调用了 afterSingletonsInstantiated 方法 ——》processBean()
+                   获取 组件方法上含有 EventListener 的方法 转换为 aplicationlistener  保存到this.applicationContext.addApplicationListener(applicationListener);中增加监听器
+        registerDisposableBeanIfNecessary()  注册bean的销毁方法
+            注： org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.singletonObjects 存放所有的 注册 bean 信息
+ #############   完成刷新 ##############
+ 10 finishRefresh
