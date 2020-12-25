@@ -66,4 +66,10 @@
         registerDisposableBeanIfNecessary()  注册bean的销毁方法
             注： org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.singletonObjects 存放所有的 注册 bean 信息
  #############   完成刷新 ##############
- 10 finishRefresh
+ 10 finishRefresh 刷新完成
+        initLifecycleProcessor 初始化生命周期的 processor   在完成onRefresh  以及 onClose时调用 创建 了 DefaultLifecycleProcessor  后置处理器
+        调用 getLifecycleProcessor().onRefresh();调用后置处理器的 onRefresh方法
+        publishEvent(new ContextRefreshedEvent(this)); 发布ContextRefreshedEvent事件  即  onrefresh方法的调用完成、、
+        registerApplicationContext 注册applicationContext
+
+
