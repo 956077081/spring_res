@@ -1,0 +1,52 @@
+
+
+  1 servlet容器启动 会调用当前应用中的每一个jar包
+         ServletContainerInitializer 的实现
+  2 提供ServletContainerInitializer的实现类
+    必须绑定在 META-INF/services/javax.servlet.ServletContainerInitializer 文件中
+        onstartup方法中 返回所有 @handleTypes中关联的类 （即 子类  抽象类）
+
+
+  tomcat 容器 启动时 会启动 ServletContainerInitializer 接口子类  调用onstartup方法
+         onstartup方法中加入 web.xml中配置（ WEB 三大组件 servlet filter  listern）
+         每次请求进来会经过  执行监听   -》filter  -》servlet  达到请求路由的过程
+
+   SSM项目启动：
+  1  <listener>
+       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    ContextLoaderListener 为spring 的监听器 加载了{
+                                                  <context-param>
+                                                    <param-name>contextConfigLocation</param-name>
+                                                    <param-value>/WEB-INF/config/spring-context*.xml</param-value>
+                                                  </context-param>
+                                                }
+                                                spring的配置文件 启动了 spring容器 即  *** 父容器
+  2 {
+   <servlet>
+         <servlet-name>springMvc</servlet-name>
+         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+         <init-param>
+           <param-name>contextConfigLocation</param-name>
+           <param-value>/WEB-INF/config/spring-mvc.xml</param-value>
+         </init-param>
+         <load-on-startup>1</load-on-startup>
+       </servlet>
+   } 则该条xml配置为加载springMvc的配置  启动springMvc   容器 即 子容器
+   默认 spring容器是不对springMvc容器开放的
+   除非springMvc的xml文件中增加
+    {
+      <!-- 完成请求和注解POJO的映射 -->
+       <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+           <property name="detectHandlerMethodsInAncestorContexts">
+               <value>true</value>
+           </property>
+       </bean>
+    } 则 springMvc 容器启动会扫描spring 父容器中的组件
+    detectHandlerMethodsInAncestorContexts： 是否扫描父容器中组件
+
+
+
+
+
+

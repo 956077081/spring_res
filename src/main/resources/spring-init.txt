@@ -73,3 +73,22 @@
         registerApplicationContext 注册applicationContext
 
 
+
+
+ //springMvc 容器的创建
+  tomcat启动会记载 springMvc中的SpringServletContainerInitializer
+   关联的 类有三个
+       1。AbstractContextLoaderInitializer 创建了根容器 createRootApplicationContext()
+       2。AbstractDispatcherServletInitializer  servletContext加入 registerDispatcherServlet  前端控制器servlet
+       3。AbstractAnnotationConfigDispatcherServletInitializer 创建注解 的 前端控制器 servlet
+
+   使用 注解的方式创建前端控制器需要实现 AbstractAnnotationConfigDispatcherServletInitializer 接口
+        见(MyServletContainIniaition) 注解式的创建 创建父 spring容器 以及springMvc的容器
+
+
+
+  // 生成定制化的 springMvC
+   1 需要@EnableWebMvc   ：开启springMvc定制化配置  例如视图解析 静态资源方法等等 xml文件中可以配置springMVC的配置
+      都可通过 在 创建容器中  通过 WebMvcConfigurer接口实现 定制化 springMVC修改默认配置（由于太多大多使用 WebMvcConfigurerAdapter）
+
+
