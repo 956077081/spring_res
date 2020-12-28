@@ -61,8 +61,8 @@
                         invokeInitMethods 执行 初始化方法
                         applyBeanPostProcessorsAfterInitialization  执行beanpostprocee后置处理器的 bean初始化后的后置方法
             4 执行getbean方法之后会再次遍历一次 bean
-                 对于 （EventListenerMethodProcessor）SmartInitializingSingleton 组件 调用了 afterSingletonsInstantiated 方法 ——》processBean()
-                   获取 组件方法上含有 EventListener 的方法 转换为 aplicationlistener  保存到this.applicationContext.addApplicationListener(applicationListener);中增加监听器
+                 对于 （EventListenerMethodProcessor）AnnotatedBeanDefinitionReader(这个组件是在 AnnotationConfigApplicationContext 构造时创建的) 组件 调用了 afterSingletonsInstantiated 方法 ——》processBean()
+                   获取 组件方法上含有 EventListener 的方法 转换为 aplicationlistener 保存到this.applicationContext.addApplicationListener(applicationListener);中增加监听器
         registerDisposableBeanIfNecessary()  注册bean的销毁方法
             注： org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.singletonObjects 存放所有的 注册 bean 信息
  #############   完成刷新 ##############
