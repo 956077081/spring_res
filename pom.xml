@@ -71,14 +71,21 @@
       <version>1.2.73</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>3.6.1</version>
+    </dependency>
+
 
     <!--servlet-api -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>3.0-alpha-1</version>
-      <scope>provided</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>javax.servlet</groupId>-->
+      <!--<artifactId>servlet-api</artifactId>-->
+      <!--<version>3.0-alpha-1</version>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
   </dependencies>
 
   <build>

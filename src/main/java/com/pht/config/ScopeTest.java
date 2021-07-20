@@ -16,7 +16,6 @@ import org.springframework.context.annotation.*;
  * or regular component classes to import.
  */
 @Import(value = {Disk.class, MyBeanImportBeanSelector.class, MyBeanDefinitionRegistrar.class})
-
 public class ScopeTest {
     /**
      *bean默认为单例模式  singleton  容器加载时  实例化对象
@@ -42,7 +41,7 @@ public class ScopeTest {
     }
 
     /**
-     * condiction的使用  加载组件时进行判断是否进行加载
+     * condiction的使用加载组件时进行判断是否进行加载
      */
     @Conditional(value = {UserCondition.class})
     @Bean(name = "user01")

@@ -39,7 +39,7 @@ public class UserAop {
      * @param object
      */
     @AfterReturning(value = "getPointCut()",returning = "object")
-    public void  afterReturn( Object object){
+    public void  afterReturn( Object object ){
         System.out.println("afterReturn"+"响应参数："+object);
     }
     @AfterThrowing(value = "getPointCut()" ,throwing = "exception")

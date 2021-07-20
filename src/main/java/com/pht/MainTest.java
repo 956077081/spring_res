@@ -13,14 +13,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
 
-public class MainTest {
-//  public static ApplicationContext applicationContext = new AnnotationConfigApplicationContext( ScopeTest.class);
-        public static ApplicationContext applicationContext = null;
-    public static ApplicationContext applicationContext3 = null;
+import java.util.Scanner;
 
-//    public static AnnotationConfigApplicationContext applicationContext3 = new AnnotationConfigApplicationContext(InitMyConfig.class);
+public class MainTest {
+  public static ApplicationContext applicationContext = new AnnotationConfigApplicationContext( ScopeTest.class);
+//    public static ApplicationContext applicationContext3 = null;
+
+    public static AnnotationConfigApplicationContext applicationContext3 = new AnnotationConfigApplicationContext(InitMyConfig.class);
     public static void main(String[] args) {
-        scopeTest();
+//        scopeTest();
 
 //        AnnoScanBeans();
 //        xmlscanBeans();
@@ -53,12 +54,13 @@ public class MainTest {
 //        Computer bean = applicationContext.getBean(Computer.class);
 //        System.out.println(bean);
     }
-    public static void   scopeTest(){
+    @Test
+    public  void   scopeTest(){
         ApplicationContext applicationContext =MainTest.applicationContext;
         System.out.println(applicationContext.getBean(Person.class)==applicationContext.getBean(Person.class));
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
-            System.out.println(beanDefinitionName);
+            System.out.println("BEAN|"+beanDefinitionName);
         }
         Object houseBeanfactory = applicationContext.getBean("houseFactoryBean");
         String typeName = houseBeanfactory.getClass().getTypeName();
@@ -66,7 +68,8 @@ public class MainTest {
         Object houseBeanfactory1 = applicationContext.getBean("&houseFactoryBean");
         System.out.println(houseBeanfactory1.getClass().getTypeName());
     }
-    public static  void  AnnoScanBeans(){
+    @Test
+    public   void  AnnoScanBeans(){
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext( SpringConfigTest.class);
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
@@ -79,7 +82,6 @@ public class MainTest {
      * xml方式scan获取 扫描注解  获取bean
      */
     public static void xmlscanBeans(){
-
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bean.xml");
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
@@ -105,5 +107,9 @@ public class MainTest {
         ApplicationContext applicationContext1 = new AnnotationConfigApplicationContext( SpringConfigTest.class);
         Person person1 = applicationContext1.getBean(Person.class);
         System.out.println(person1);
+
+
     }
+
+
 }

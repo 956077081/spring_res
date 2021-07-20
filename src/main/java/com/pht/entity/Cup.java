@@ -5,7 +5,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-
+//构造 -》postContract ->postprocessor->InitializingBean>InitMethod 顺序
 public class Cup   {
     private String size ;
     private String type;

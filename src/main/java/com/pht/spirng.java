@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.lang.reflect.Method;
+
 public class spirng {
 
     public static void main(String[] args) {
@@ -20,7 +22,7 @@ public class spirng {
         ApplicationContext applicationContext= new AnnotationConfigApplicationContext(AutoWiredConfig.class);
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         System.out.println(applicationContext.getBean(UserService.class));
-        for (String beanDefinitionName  :beanDefinitionNames){
+        for (String beanDefinitionName  : beanDefinitionNames){
             System.out.println(beanDefinitionName);
         }
     }

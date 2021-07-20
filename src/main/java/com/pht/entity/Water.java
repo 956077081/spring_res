@@ -3,9 +3,13 @@ package com.pht.entity;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+// 构造-》BeanPostProcessor -》->postContract>InitializingBean->init
 public class Water  implements InitializingBean, DisposableBean {
     private String  num;
     private String type;
+    public  Water(){
+        System.out.println("contractust");
+    }
     public void init(){
         System.out.println("init!");
     }
