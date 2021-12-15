@@ -108,7 +108,6 @@ public class MainTest {
         Person person1 = applicationContext1.getBean(Person.class);
         System.out.println(person1);
 
-
     }
 
 
